@@ -1,6 +1,6 @@
 package cocus.githubclient.apiclient.impl;
 
-import cocus.githubclient.apiclient.GitHubApiClient;
+import cocus.githubclient.apiclient.GitHubClient;
 import cocus.githubclient.apiclient.apimodel.GitHubRepository;
 import cocus.githubclient.apiclient.apimodel.GitHubRepositoryBranch;
 import cocus.githubclient.exception.InvalidGitHubUserException;
@@ -13,10 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
 @Service
-public class GitHubApiClientImpl implements GitHubApiClient {
-
-    @Value("${github.base_url:https://api.github.com}")
-    private String baseUrl;
+public class GitHubClientImpl implements GitHubClient {
 
     private static final String REPOS_URL_TEMPLATE = "https://api.github.com/users/%s/repos?type=owner&per_page=100";
     private static final String BRANCHES_URL_TEMPLATE = "https://api.github.com/repos/%s/%s/branches";
@@ -25,7 +22,9 @@ public class GitHubApiClientImpl implements GitHubApiClient {
     private final WebClient webClient;
 
     @Autowired
-    public GitHubApiClientImpl(WebClient.Builder webClientBuilder) {
+    public GitHubClientImpl(
+            WebClient.Builder webClientBuilder,
+            @Value("${github.base_url:https://api.github.com}") String baseUrl) {
         this.webClient = webClientBuilder.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github+json")
                                          .baseUrl(baseUrl)
                                          .build();

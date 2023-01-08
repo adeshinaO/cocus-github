@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>cocus</groupId>
 	<artifactId>githubclient</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>githubclient</name>
 	<description>API For Fetching GitHub Repos</description>
 	<properties>

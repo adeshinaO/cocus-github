@@ -1,7 +1,7 @@
 package cocus.githubclient.controller;
 
 import cocus.githubclient.dto.RepositoryDto;
-import cocus.githubclient.service.GitHubRepositoryService;
+import cocus.githubclient.service.GitHubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 @RestController
-public class GitHubRepositoryController {
+public class GitHubController {
 
-    private final GitHubRepositoryService service;
+    private final GitHubService service;
 
     @Autowired
-    public GitHubRepositoryController(GitHubRepositoryService service) {
+    public GitHubController(GitHubService service) {
         this.service = service;
     }
 

@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux;
 /**
  * Base interface for classes that make requests to GitHub's API.
  */
-public interface GitHubApiClient {
+public interface GitHubClient {
     /**
      * Returns a list of repositories owned by the user with the given username.
      */
