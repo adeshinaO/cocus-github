@@ -4,15 +4,16 @@ import cocus.githubclient.dto.ErrorDto;
 import cocus.githubclient.exception.InvalidGitHubUserException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import reactor.core.publisher.Mono;
 
 @RestControllerAdvice
 public class ApiErrorHandler {
 
     @ExceptionHandler
-    public ErrorDto handleWebClientException(InvalidGitHubUserException exception) {
+    public Mono<ErrorDto> handleWebClientException(InvalidGitHubUserException exception) {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setMessage(exception.getMessage());
         errorDto.setStatus(404);
-        return errorDto;
+        return Mono.just(errorDto);
     }
 }

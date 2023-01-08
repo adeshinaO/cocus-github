@@ -18,8 +18,8 @@ public class GitHubApiClientImpl implements GitHubApiClient {
     @Value("${github.base_url:https://api.github.com}")
     private String baseUrl;
 
-    private static final String REPOSITORIES_URL_TEMPLATE = "/users/%s/repos?type=owner";
-    private static final String BRANCHES_URL_TEMPLATE = "/repos/%s/%s/branches";
+    private static final String REPOS_URL_TEMPLATE = "https://api.github.com/users/%s/repos?type=owner&per_page=100";
+    private static final String BRANCHES_URL_TEMPLATE = "https://api.github.com/repos/%s/%s/branches";
     private static final String INVALID_USERNAME_TEMPLATE = "The username %s does not exist on GitHub";
 
     private final WebClient webClient;
@@ -34,7 +34,7 @@ public class GitHubApiClientImpl implements GitHubApiClient {
     @Override
     public Flux<GitHubRepository> listUserRepositories(String username) {
         return webClient.get()
-                        .uri(String.format(REPOSITORIES_URL_TEMPLATE, username))
+                        .uri(String.format(REPOS_URL_TEMPLATE, username))
                         .retrieve()
                         .onStatus(HttpStatus.NOT_FOUND::equals,
                                 clientResponse ->
