@@ -1,4 +1,4 @@
-package cocus.githubclient.client.apimodel;
+package cocus.githubclient.apiclient.apimodel;
 
 import lombok.Data;
 

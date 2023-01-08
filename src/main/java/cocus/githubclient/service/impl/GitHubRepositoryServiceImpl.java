@@ -1,6 +1,7 @@
 package cocus.githubclient.service.impl;
 
-import cocus.githubclient.client.GitHubApiClient;
+import cocus.githubclient.apiclient.GitHubApiClient;
+import cocus.githubclient.apiclient.apimodel.GitHubRepository;
 import cocus.githubclient.dto.RepositoryBranchDto;
 import cocus.githubclient.dto.RepositoryDto;
 import cocus.githubclient.service.GitHubRepositoryService;
@@ -20,7 +21,7 @@ public class GitHubRepositoryServiceImpl implements GitHubRepositoryService {
 
     @Override
     public Flux<RepositoryDto> listUserRepositories(String username) {
-        return gitHubApiClient.listUserRepositories(username).map(repo -> {
+        return gitHubApiClient.listUserRepositories(username).filter(repo -> !repo.isFork()).map(repo -> {
             RepositoryDto repository = new RepositoryDto();
             repository.setName(repo.getName());
             repository.setOwnerLogin(repo.getOwner().getLogin());

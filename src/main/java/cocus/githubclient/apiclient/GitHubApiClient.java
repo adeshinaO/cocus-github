@@ -1,8 +1,7 @@
-package cocus.githubclient.client;
+package cocus.githubclient.apiclient;
 
-import cocus.githubclient.client.apimodel.GitHubRepository;
-import cocus.githubclient.client.apimodel.GitHubRepositoryBranch;
-import java.util.Optional;
+import cocus.githubclient.apiclient.apimodel.GitHubRepository;
+import cocus.githubclient.apiclient.apimodel.GitHubRepositoryBranch;
 import reactor.core.publisher.Flux;
 
 /**
