@@ -3,9 +3,11 @@ package cocus.githubclient.apiclient.impl;
 import cocus.githubclient.apiclient.GitHubApiClient;
 import cocus.githubclient.apiclient.apimodel.GitHubRepository;
 import cocus.githubclient.apiclient.apimodel.GitHubRepositoryBranch;
+import cocus.githubclient.exception.InvalidGitHubUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -18,6 +20,7 @@ public class GitHubApiClientImpl implements GitHubApiClient {
 
     private static final String REPOSITORIES_URL_TEMPLATE = "/users/%s/repos?type=owner";
     private static final String BRANCHES_URL_TEMPLATE = "/repos/%s/%s/branches";
+    private static final String INVALID_USERNAME_TEMPLATE = "The username %s does not exist on GitHub";
 
     private final WebClient webClient;
 
@@ -33,6 +36,10 @@ public class GitHubApiClientImpl implements GitHubApiClient {
         return webClient.get()
                         .uri(String.format(REPOSITORIES_URL_TEMPLATE, username))
                         .retrieve()
+                        .onStatus(HttpStatus.NOT_FOUND::equals,
+                                clientResponse ->
+                                        clientResponse.toBodilessEntity()
+                                                      .map(s -> new InvalidGitHubUserException(String.format(INVALID_USERNAME_TEMPLATE, username))))
                         .bodyToFlux(GitHubRepository.class);
     }
 
